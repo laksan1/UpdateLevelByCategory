@@ -68,7 +68,7 @@ namespace UpdateLevelByCategory.ViewModel
             {
                 dictionaryCategory.Add("Арматура воздуховодов", BuiltInCategory.OST_DuctAccessory);
                 dictionaryCategory.Add("Арматура трубопроводов", BuiltInCategory.OST_PipeAccessory);
-                dictionaryCategory.Add("Воздуховоды", BuiltInCategory.OST_DuctLinings);
+                dictionaryCategory.Add("Воздуховоды", BuiltInCategory.OST_DuctCurves);
                 dictionaryCategory.Add("Воздухораспределители", BuiltInCategory.OST_DuctTerminal);
                 dictionaryCategory.Add("Выключатели", BuiltInCategory.OST_LightingDevices);
                 dictionaryCategory.Add("Гибкие воздуховоды", BuiltInCategory.OST_FlexDuctCurves);
