@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UpdateLevelByCategory</RootNamespace>
+    <AssemblyName>UpdateLevelByCategory</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;R2019</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R2017|AnyCPU'">
+    <OutputPath>bin\R2017\</OutputPath>
+    <DefineConstants>TRACE;R2017</DefineConstants>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)_2017</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R2018|AnyCPU'">
+    <OutputPath>bin\R2018\</OutputPath>
+    <DefineConstants>TRACE;R2018</DefineConstants>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)_2018</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R2019|AnyCPU'">
+    <OutputPath>bin\R2019\</OutputPath>
+    <DefineConstants>TRACE;R2019</DefineConstants>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)_2019</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'R2020|AnyCPU'">
+    <OutputPath>bin\R2020\</OutputPath>
+    <DefineConstants>TRACE;R2020</DefineConstants>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <AssemblyName>$(AssemblyName)_2020</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Program Files (x86)\Microsoft Office\Office16\ADDINS\Microsoft Power Query for Excel Integrated\bin\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\ControlzEx.3.0.2.4\lib\net462\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Model\CollectionClass.cs" />
+    <Compile Include="Model\MainClass.cs" />
+    <Compile Include="Model\RevitModelClass.cs" />
+    <Compile Include="MVVM\ModelBase.cs" />
+    <Compile Include="MVVM\RelayCommand.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\ProgressBarViewModel.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProgressBarWindow.xaml.cs">
+      <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProgressBarWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\Entypo.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Entypo-license.txt" />
+    <Content Include="Resources\WindowsIcons-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Core">
+      <Version>1.7.7</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro">
+      <Version>1.6.5</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro.Resources">
+      <Version>0.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="ModPlus.Revit.API.2017">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="ModPlus.Revit.API.2018">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="ModPlus.Revit.API.2019">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="ModPlus.Revit.API.2020">
+      <Version>1.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition=" '$(Configuration)'=='R2017' ">
+      <ItemGroup>
+        <PackageReference Include="ModPlus.Revit.API.2017">
+          <Version>1.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='R2018' ">
+      <ItemGroup>
+        <PackageReference Include="ModPlus.Revit.API.2018">
+          <Version>1.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='R2019' ">
+      <ItemGroup>
+        <PackageReference Include="ModPlus.Revit.API.2019">
+          <Version>1.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Configuration)'=='R2020' or '$(Configuration)'=='Debug'">
+      <ItemGroup>
+        <PackageReference Include="ModPlus.Revit.API.2020">
+          <Version>1.0.0</Version>
+          <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

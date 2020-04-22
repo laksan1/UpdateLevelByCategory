@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29201.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateLevelByCategory", "UpdateLevelByCategory.csproj", "{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{676B747A-6386-4AEF-B86A-7B3367BF800B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		R2017|Any CPU = R2017|Any CPU
+		R2018|Any CPU = R2018|Any CPU
+		R2019|Any CPU = R2019|Any CPU
+		R2020|Any CPU = R2020|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2017|Any CPU.ActiveCfg = R2017|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2017|Any CPU.Build.0 = R2017|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2018|Any CPU.ActiveCfg = R2018|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2018|Any CPU.Build.0 = R2018|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2019|Any CPU.ActiveCfg = R2019|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2019|Any CPU.Build.0 = R2019|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2020|Any CPU.ActiveCfg = R2020|Any CPU
+		{20E6D7D7-D2BA-452B-83F4-AF3FF3C6D62C}.R2020|Any CPU.Build.0 = R2020|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2017|Any CPU.ActiveCfg = Release|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2017|Any CPU.Build.0 = Release|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2018|Any CPU.ActiveCfg = Release|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2018|Any CPU.Build.0 = Release|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2019|Any CPU.ActiveCfg = Release|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2019|Any CPU.Build.0 = Release|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2020|Any CPU.ActiveCfg = Release|Any CPU
+		{676B747A-6386-4AEF-B86A-7B3367BF800B}.R2020|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9CD5156-49D7-405B-B067-83CE56B0F1C6}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,32 @@
+﻿<Controls:MetroWindow x:Class="UpdateLevelByCategory.View.ProgressBarWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UpdateLevelByCategory.View"
+             Title="Progress bar"
+             WindowStartupLocation="CenterScreen"
+             mc:Ignorable="d" Height="287.708" Width="420.617" Closed="MetroWindow_Closed">
+    <Grid>
+        <Label x:Name="labelNumberElement" Margin="63,69,54,158" Foreground="#FF0E85E8" FontSize="16" FontFamily="Segoe UI Black"/>
+        <Controls:MetroProgressBar x:Name="prBar" Margin="63,114,54,117" Foreground="#FF3CCF1C"  BorderThickness="15" BorderBrush="LightGray"/>
+        <Label x:Name="labelNameElement" HorizontalAlignment="Left" Margin="63,195,0,0" Foreground="#FF0E85E8" FontSize="10" FontFamily="Segoe UI Black" VerticalAlignment="Top" Height="38" Width="296"/>
+    </Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <!-- Accent and AppTheme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Steel.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="Styles.xaml"  />
+                <!--Personal-->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+</Controls:MetroWindow>
