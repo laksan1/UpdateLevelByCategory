@@ -14,7 +14,6 @@ class Build : NukeBuild
 
     [Solution] readonly Solution Solution;
 
-    // If the solution name and the project (plugin) name are different, then indicate the project (plugin) name here
     string PluginName => Solution.Name;
 
     Target Compile => _ => _

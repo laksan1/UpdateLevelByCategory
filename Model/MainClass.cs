@@ -15,7 +15,7 @@ namespace UpdateLevelByCategory.Model
     [RegenerationAttribute(RegenerationOption.Manual)]
    public class UpdateLevelByCategory :  IExternalCommand
        
-    {
+   {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             var vm = new MainWindowViewModel();
@@ -29,6 +29,8 @@ namespace UpdateLevelByCategory.Model
                 }
                 return Result.Succeeded;
             }
+
+
             catch (Exception exception)
             {
                 TaskDialog.Show("Error", exception.Message);

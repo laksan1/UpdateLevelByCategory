@@ -22,23 +22,33 @@ namespace UpdateLevelByCategory.ViewModel
         private ICommand _command2;
         private ICommand _command3;
         private ICommand _command4;
+        private ICommand _command5;
         public RelayCommand CheckCommand { get; private set; }
         
         private Action _closeAction;
         internal RevitModelClass RevitModel { get; set; }
         private bool? isAllSelected;
+        public bool isCheckedAdskLevel;
         public bool isCheckedUngroup;
         public Dictionary<string, BuiltInCategory> dictionaryCategory;
 
         public BuiltInCategory checkedCat; //Выбранная категория
 
         public string offsetNumberVM;
-
+        //Свойство разгруппировки
         public bool IsCheckedUngroup
         {
             get { return isCheckedUngroup; }
             set { isCheckedUngroup = value; OnPropertyChanged(); }
         }
+        //Свойство установки параметра АДСК Этаж
+        public bool IsCheckedAdskLevel
+        {
+            get { return isCheckedAdskLevel; }
+            set { isCheckedAdskLevel = value; OnPropertyChanged(); }
+        }
+
+
         public bool? IsAllSelected
         {
             get { return isAllSelected; }
@@ -64,6 +74,8 @@ namespace UpdateLevelByCategory.ViewModel
 
            CheckCommand = new RelayCommand(OnCheckAll);
            IsAllSelected = false;
+
+            //Словарь категорий
             dictionaryCategory = new Dictionary<string, BuiltInCategory>();
             {
                 dictionaryCategory.Add("Арматура воздуховодов", BuiltInCategory.OST_DuctAccessory);
@@ -204,7 +216,26 @@ namespace UpdateLevelByCategory.ViewModel
                 OnPropertyChanged();
             }
         }
-        
+
+        public ICommand CommandAdskLevel
+        {
+            get
+            {
+                if (_command5 == null)
+                    _command5 = new RelayCommand(o =>
+                    {
+                        if (IsCheckedAdskLevel)
+                            RevitModel.SetAdskLevel(RevitModel.collectionElementsId);
+
+                    });
+                return _command5;
+            }
+            set
+            {
+                OnPropertyChanged();
+            }
+        }
+
         public string GetLabelCount(int ct)
         {
             return "Selected "  + ct + "\n elements";

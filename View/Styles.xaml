@@ -47,7 +47,6 @@
         </Setter>
     </Style>
     <!--Одно нажатие вместо двух-->
-
     <Style x:Key="MetroButton" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
         <Setter Property="Background" Value="#EEEEEEEE"/>

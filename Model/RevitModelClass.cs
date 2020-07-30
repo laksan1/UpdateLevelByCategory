@@ -29,14 +29,14 @@ namespace UpdateLevelByCategory.Model
         public Application _application;
         public Document _document;
         public readonly UIDocument _uiDocument;
-
         public string offsetNumberR;
         public IList<Element> collectionElementsId;
         public string messageGroup = "";
-       public int countCollector { get; set; }
+        public int countCollector { get; set; }
 
         public int i = 0;
      
+        //Метод обновления уровня
         public bool UpdateLevel(IList<Element> _listElementsSelected)
         {
             double offsetOfCustomer;
@@ -70,22 +70,20 @@ namespace UpdateLevelByCategory.Model
 
                     FilteredElementCollector collector = new FilteredElementCollector(_document).OfClass(typeof(PipeInsulation));
 
-                    IEnumerable<Level> levels = new FilteredElementCollector(_document).OfClass(typeof(Level)).Cast<Level>(); //Коллекция всех уровней в проекте
+                    //Коллекция всех уровней в проекте
+                    IEnumerable<Level> levels = new FilteredElementCollector(_document).OfClass(typeof(Level)).Cast<Level>(); 
 
                     countCollector = _listElementsSelected.Count();
                     string nameTreadCurrentOld = Thread.CurrentThread.Name;
-
-                    
+                      
                     using (_progressWindowWaitHandle = new AutoResetEvent(false))
                     {
-
+                        //Создание нового потока для прогрессбара
                         Thread newprogWindowThread = new Thread(new ThreadStart(ShowProgWindow));
                         newprogWindowThread.SetApartmentState(ApartmentState.STA);
                         newprogWindowThread.IsBackground = true;
                         newprogWindowThread.Start();
-                  
 
-                        //Wait for thread to notify that it has created the window
                         _progressWindowWaitHandle.WaitOne();
                     }
                      
@@ -97,14 +95,14 @@ namespace UpdateLevelByCategory.Model
 
                         Level newLevel = null; ;
 
-                        string name_Element = el.Name;//Для отладки
+                        string name_Element = el.Name;
 
-
+                        //Обновление прогресс бара
                         this.progressBarWindow.UpdateProgress(name_Element , i, countCollector);
 
 
-                        //Если элемент семейство
-                        if (el.GroupId.IntegerValue != -1) //Кроме групп
+                        //Кроме групп
+                        if (el.GroupId.IntegerValue != -1) 
                         {
                             var NameGroup = _document.GetElement(el.GroupId).Name;
 
@@ -115,22 +113,20 @@ namespace UpdateLevelByCategory.Model
                             }
                         }
 
-                        if (el.GroupId.IntegerValue == -1) //Кроме групп
+                        //Если элемент семейство
+                        if (el.GroupId.IntegerValue == -1) 
                         {
-
                                 if (el is FamilyInstance fi)
 
                                 {
-                                    Parameter ParameterElementLevel = el.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM); //Параметр уровня
-                                    string nameParameterLevel = ParameterElementLevel.Definition.Name; //Для отладки
-                                    Parameter paramOffSet = el.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);//Параметр привязки
-
+                                    //Параметр уровня
+                                    Parameter ParameterElementLevel = el.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM); 
+                                    string nameParameterLevel = ParameterElementLevel.Definition.Name;
+                                    //Параметр привязки
+                                    Parameter paramOffSet = el.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
                                     LocationPoint LocalPointElement = el.Location as LocationPoint;
 
-                                     ///Смещение пользователя
-                               
-
-
+                                //Смещение пользователя
                                 BoundingBoxXYZ bb = el.get_BoundingBox(_document.ActiveView);
                                 double value_Z_ElementBoundingBox = bb.Min.Z;
 
@@ -163,11 +159,14 @@ namespace UpdateLevelByCategory.Model
 
                                             if (!fi.HasSpatialElementCalculationPoint)
                                             {
-                                                newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); //Для минимальной Z семейства, независимо от самого семейства
+
+                                            //Для минимальной Z семейства, независимо от самого семейства
+                                            newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); 
                                             }
                                             else
                                             {
-                                                newLevel = GetNearestLevelToElements(fi.GetSpatialElementCalculationPoint().Z + offsetOfCustomer, levels);// Для семейства с точкой расчета площади
+                                            //Для семейства с точкой расчета площади
+                                            newLevel = GetNearestLevelToElements(fi.GetSpatialElementCalculationPoint().Z + offsetOfCustomer, levels);
 
                                             }
 
@@ -180,11 +179,13 @@ namespace UpdateLevelByCategory.Model
                                     {
                                         if (!fi.HasSpatialElementCalculationPoint)
                                         {
-                                            newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); //Для минимальной Z семейства, независимо от самого семейства
+
+                                            newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); 
+
                                         }
                                         else
                                         {
-                                            newLevel = GetNearestLevelToElements(fi.GetSpatialElementCalculationPoint().Z + offsetOfCustomer, levels); //Для минимальной Z семейства, независимо от самого семейства
+                                            newLevel = GetNearestLevelToElements(fi.GetSpatialElementCalculationPoint().Z + offsetOfCustomer, levels); 
 
                                         }
                                     }
@@ -199,43 +200,35 @@ namespace UpdateLevelByCategory.Model
                                     if (parameterLevel == null)
                                     {
 
-                                        TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
-                                    progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close)); // Close ProgressBar
+                                    TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
+                                    progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close));
                                     return false;
-
 
                                     }
+
                                     string nameParLev = parameterLevel.AsString();
-                                if (string.IsNullOrEmpty(nameParLev))
-                                {
 
-                                    TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
-                                    progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close)); // Close ProgressBar
-                                    return false;
-
-
-                                }
-
-
-                                //Установить ADSK_Этаж
-                                if (parameterlElement != null && parameterLevel != null)
+                                    if (string.IsNullOrEmpty(nameParLev))
                                     {
 
-                                        // SetParameterAdskLevelSystem(parameterlElement, nameParLev);
-                                        SetParameterAdskLevelFamily(parameterlElement, nameParLev, fi);
+                                        TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
+                                        progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close));
+                                        return false;
+
                                     }
+                            
 
                                 //Если уровни не совпали
                                 if (newLevel.Id != levelBaseElement && !ParameterElementLevel.IsReadOnly)
                                     {
                                     double LocationZFAmily = PoundsToM(value_Z_Element);
                                     double ZnewLevel = PoundsToM(newLevel.Elevation);
-                                    double ZPointCulculate = PoundsToM(fi.GetSpatialElementCalculationPoint().Z);
+                                    //double ZPointCulculate = PoundsToM(fi.GetSpatialElementCalculationPoint().Z);
                                     double ZBoxMin = PoundsToM(value_Z_ElementBoundingBox);
 
-                                      string NameLevel = newLevel.Name;//Для отладки
-                                      ParameterElementLevel.Set(newLevel.Id);//Задает новый уровень
-                                      paramOffSet.Set(value_Z_Element - newLevel.Elevation);//Задает новое смещение      
+                                    string NameLevel = newLevel.Name;
+                                    ParameterElementLevel.Set(newLevel.Id);//Задает новый уровень
+                                    paramOffSet.Set(value_Z_Element - newLevel.Elevation);//Задает новое смещение      
 
                                     }
                                 }
@@ -247,8 +240,12 @@ namespace UpdateLevelByCategory.Model
                                 BoundingBoxXYZ bb = el.get_BoundingBox(_document.ActiveView);
                                 double value_Z_ElementBoundingBox = bb.Min.Z;
                                 MEPCurve mEPCurve = el as MEPCurve;
+
+                                //Параметр уровня
                                 Parameter ParameterElementLevel = el.get_Parameter(BuiltInParameter.RBS_START_LEVEL_PARAM);
-                                Parameter paramOffSetStart = el.get_Parameter(BuiltInParameter.RBS_OFFSET_PARAM);//Параметр привязки
+
+                                //Параметр привязки
+                                Parameter paramOffSetStart = el.get_Parameter(BuiltInParameter.RBS_OFFSET_PARAM);
                                 Element elForLevel = el;
 
                                 //double value_Z_ElementBoundingBox = el.get_BoundingBox(_document.ActiveView).Min.Z;
@@ -260,7 +257,8 @@ namespace UpdateLevelByCategory.Model
 
                                     double value_Z_Element = GetMinPointCurve(lc);
 
-                                    newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); //value_Z_ElementBoundingBox
+                                    newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels);
+
                                     if (newLevel == null)
                                     {
                                         newLevel = minLevelinProject;
@@ -276,52 +274,32 @@ namespace UpdateLevelByCategory.Model
                                         progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close)); // Close ProgressBar
                                         return false;
 
-
                                     }
 
                                     string nameParLev = parameterLevel.AsString();
 
-
-                                    //Установить ADSK_Этаж
-                                    if (parameterlElement != null && parameterLevel != null)
-                                    {
-
-                                        parameterlElement.Set(nameParLev);
-                                        //SetParameterAdskLevelSystem(parameterlElement, nameParLev);
-                                    }
-
-
                                     //Если уровни не совпали
-
                                     if (newLevel.Id != levelBaseElement)
                                     {
-                                        string NameLevel = newLevel.Name;//Для отладки
-
+                                        string NameLevel = newLevel.Name;
                                         ParameterElementLevel.Set(newLevel.Id);//Задает новый уровень
 
                                     }
 
                                 }
                            }
-                            else
-                            {
-
-
-                            }
-
 
                             i++;
                         }
                   
 
-                }//end foreach
+                }//Конец foreach
 
                     tr.Commit();
                 }
 
 
                 progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close)); // Close ProgressBar
-                /// End transaction
 
                 if (!string.IsNullOrEmpty(messageGroup))
                 {
@@ -336,28 +314,28 @@ namespace UpdateLevelByCategory.Model
             }
         }
 
-        
+        //Метод отображения прогрессбара
         public void ShowProgWindow()
 
         {
-
             progressBarViewModel = new ProgressBarViewModel(this);
             progressBarWindow = new ProgressBarWindow(progressBarViewModel);
             string nameTreadCurrentNew = Thread.CurrentThread.Name;
             progressBarWindow.Show();
 
-            progressBarWindow.Closed += new EventHandler(progressBarWindow.MetroWindow_Closed); // progWindow.Closed +=new EventHandler(progWindow_Closed);
+            progressBarWindow.Closed += new EventHandler(progressBarWindow.MetroWindow_Closed);
 
-           _progressWindowWaitHandle.Set();
+            _progressWindowWaitHandle.Set();
 
-           System.Windows.Threading.Dispatcher.Run();
+            System.Windows.Threading.Dispatcher.Run();
             
         }
-
     
+
+           
         public void SetParameterAdskLevelFamily(Parameter _parElemnt, string _parLevel, FamilyInstance _fi)
         {
-          
+                //Получение вложенных семейств
                 var listNestedFamilies = _fi.GetSubComponentIds().ToList();
                 if (listNestedFamilies.Count != 0)
                 {
@@ -376,12 +354,12 @@ namespace UpdateLevelByCategory.Model
                             _parlvl.Set(_parLevel);
                         SetParameterAdskLevelFamily(_parElemnt, _parLevel, fIsubFamiy);
                         continue;
+
                         }
                       }
                     _parElemnt.Set(_parLevel);
 
                 }
-
 
                 else
                 {
@@ -389,31 +367,6 @@ namespace UpdateLevelByCategory.Model
 
                 }
         }
-
-
-        //public bool SetInsulationParameter(Element _el)
-        //{
-         
-
-
-
-
-        //}
-
-
-        //public void SetParameterAdskLevelSystem(Parameter _parElemnt, string _parLevel)
-        //{
-        //    using (Transaction t = new Transaction(_document, "SetLevel"))
-        //    {
-
-
-        //            _parElemnt.Set(_parLevel);
-
-        //        t.Commit();
-
-        //    }
-        //}
-
 
         double GetMinPointCurve(LocationCurve _lc)
         {
@@ -423,6 +376,7 @@ namespace UpdateLevelByCategory.Model
             double Zpt2 = _lc.Curve.GetEndPoint(1).Z;
             double mpt2 = PoundsToM(Zpt2);
 
+            //Применить тернарный оператор
             if (Zpt2 > Zpt1)
             {
                 return Zpt1;
@@ -446,17 +400,6 @@ namespace UpdateLevelByCategory.Model
             return UnitUtils.ConvertToInternalUnits(value, DisplayUnitType.DUT_MILLIMETERS);
         }
 
-
-        public double GetMinPointofCurve(LocationCurve _lCurve)
-        {
-            List<double> MinPointofCurve = new List<double>();
-            for (int i = 0; i <= 1; i++)
-            {
-                MinPointofCurve.Add(_lCurve.Curve.GetEndPoint(i).Z);
-
-            }
-            return MinPointofCurve.Min();
-        }
         //Нахождение минимального уровня в проекте
         public Level GetMinimalLevel()
         {
@@ -471,6 +414,7 @@ namespace UpdateLevelByCategory.Model
                 PointsLevels.Add(lv, minZ);
 
             }
+
             //Нахождение ближайшего уровня к элементу
             Level minLEvel = PointsLevels.Where(e => e.Value == PointsLevels.Min(e2 => e2.Value)).FirstOrDefault().Key;
 
@@ -502,6 +446,7 @@ namespace UpdateLevelByCategory.Model
             Level newLevel = PointsLevels.Where(e => e.Value == PointsLevels.Min(e2 => e2.Value)).FirstOrDefault().Key;
 
             return newLevel;
+
         }
         public string GetParameterValue(Parameter parameter)
         {
@@ -594,7 +539,7 @@ namespace UpdateLevelByCategory.Model
             }
         }
 
-        //Ungroup all Groups in project
+        //Разгруппировка
         public void UnGroupAll()
         {
 
@@ -613,6 +558,260 @@ namespace UpdateLevelByCategory.Model
                 t.Commit();
             }
         }
+
+        #region Повтор кода
+        //Установить только ADSK Этаж при нажатие на флажок
+        public bool SetAdskLevel(IList<Element> _listElements)
+        {
+            double offsetOfCustomer;
+
+            if (!string.IsNullOrEmpty(offsetNumberR))
+            {
+                offsetOfCustomer = MeterToPounds(ConvertToDouble(offsetNumberR));
+
+            }
+
+            else
+            {
+                offsetOfCustomer = 0.0;
+
+            }
+
+
+            if (_listElements == null)
+            {
+                TaskDialog.Show("Error", "Count elements = 0");
+                return false;
+            }
+
+            else
+            {
+
+                using (var tr = new Transaction(_document, "Update level"))
+                {
+                    tr.Start();
+
+                    FilteredElementCollector collector = new FilteredElementCollector(_document).OfClass(typeof(PipeInsulation));
+
+                    IEnumerable<Level> levels = new FilteredElementCollector(_document).OfClass(typeof(Level)).Cast<Level>(); //Коллекция всех уровней в проекте
+
+                    countCollector = _listElements.Count();
+                    string nameTreadCurrentOld = Thread.CurrentThread.Name;
+
+                    using (_progressWindowWaitHandle = new AutoResetEvent(false))
+                    {
+
+                        Thread newprogWindowThread = new Thread(new ThreadStart(ShowProgWindow));
+                        newprogWindowThread.SetApartmentState(ApartmentState.STA);
+                        newprogWindowThread.IsBackground = true;
+                        newprogWindowThread.Start();
+                        _progressWindowWaitHandle.WaitOne();
+                    }
+
+                    Level minLevelinProject = GetMinimalLevel();
+
+                    foreach (Element el in _listElements)
+                    {
+                        ElementId levelBaseElement = el.LevelId;
+
+                        Level newLevel = null; ;
+
+                        string name_Element = el.Name;
+
+                        this.progressBarWindow.UpdateProgress(name_Element, i, countCollector);
+
+
+                
+                        if (el.GroupId.IntegerValue != -1) 
+                        {
+                            var NameGroup = _document.GetElement(el.GroupId).Name;
+
+                            if (!messageGroup.Contains(NameGroup))
+                            {
+                                messageGroup += "\u0022" + NameGroup + "\u0022" + "\n";
+
+                            }
+                        }
+
+                        if (el.GroupId.IntegerValue == -1) 
+                        {
+
+                            if (el is FamilyInstance fi)
+
+                            {
+                                Parameter ParameterElementLevel = el.get_Parameter(BuiltInParameter.FAMILY_LEVEL_PARAM); 
+                                string nameParameterLevel = ParameterElementLevel.Definition.Name;
+                                Parameter paramOffSet = el.get_Parameter(BuiltInParameter.INSTANCE_FREE_HOST_OFFSET_PARAM);
+
+                                LocationPoint LocalPointElement = el.Location as LocationPoint;
+                                BoundingBoxXYZ bb = el.get_BoundingBox(_document.ActiveView);
+                                double value_Z_ElementBoundingBox = bb.Min.Z;
+
+                                double value_Z_Element;
+
+                                if (LocalPointElement != null)
+                                {
+
+                                    value_Z_Element = LocalPointElement.Point.Z; 
+
+                                }
+
+                                else
+                                {
+                                    value_Z_Element = value_Z_ElementBoundingBox;
+
+                                }
+
+                                Level levelSameMinBB = _document.GetElement(el.LevelId) as Level;
+
+                                if (paramOffSet.AsDouble() == 0)
+
+                                {
+                                    if (!fi.CanFlipWorkPlane)
+                                    {
+                                        newLevel = levelSameMinBB;
+                                    }
+                                    else
+                                    {
+
+                                        if (!fi.HasSpatialElementCalculationPoint)
+                                        {
+                                            newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); 
+                                        }
+                                        else
+                                        {
+                                            newLevel = GetNearestLevelToElements(fi.GetSpatialElementCalculationPoint().Z + offsetOfCustomer, levels);
+
+                                        }
+
+                                    }
+
+                                }
+
+
+                                else
+                                {
+                                    if (!fi.HasSpatialElementCalculationPoint)
+                                    {
+                                        newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); 
+                                    }
+                                    else
+                                    {
+                                        newLevel = GetNearestLevelToElements(fi.GetSpatialElementCalculationPoint().Z + offsetOfCustomer, levels);
+
+                                    }
+                                }
+
+                                if (newLevel == null)
+                                {
+                                    newLevel = minLevelinProject;
+                                }
+
+                                Parameter parameterlElement = el.LookupParameter("ADSK_Этаж");
+                                Parameter parameterLevel = newLevel.LookupParameter("ADSK_Этаж");
+                                if (parameterLevel == null)
+                                {
+
+                                    TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
+                                    progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close));
+                                    return false;
+
+
+                                }
+                                string nameParLev = parameterLevel.AsString();
+                                if (string.IsNullOrEmpty(nameParLev))
+                                {
+
+                                    TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
+                                    progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close));
+                                    return false;
+
+
+                                }
+
+                             
+                                if (parameterlElement != null && parameterLevel != null)
+                                {
+
+                                    SetParameterAdskLevelFamily(parameterlElement, nameParLev, fi);
+                                }
+
+                            
+                            }
+
+                            else if (el as MEPCurve != null)
+                            {
+
+                                BoundingBoxXYZ bb = el.get_BoundingBox(_document.ActiveView);
+                                double value_Z_ElementBoundingBox = bb.Min.Z;
+                                MEPCurve mEPCurve = el as MEPCurve;
+                                Parameter ParameterElementLevel = el.get_Parameter(BuiltInParameter.RBS_START_LEVEL_PARAM);
+                                Parameter paramOffSetStart = el.get_Parameter(BuiltInParameter.RBS_OFFSET_PARAM);
+                                Element elForLevel = el;
+
+
+                                if (mEPCurve != null)
+                                {
+                                    LocationCurve lc = mEPCurve.Location as LocationCurve;
+
+                                    double value_Z_Element = GetMinPointCurve(lc);
+
+                                    newLevel = GetNearestLevelToElements(value_Z_ElementBoundingBox + offsetOfCustomer, levels); 
+                                    if (newLevel == null)
+                                    {
+                                        newLevel = minLevelinProject;
+                                    }
+
+                                    Parameter parameterlElement = elForLevel.LookupParameter("ADSK_Этаж");
+                                    Parameter parameterLevel = newLevel.LookupParameter("ADSK_Этаж");
+
+                                    if (parameterLevel == null)
+                                    {
+
+                                        TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
+                                        progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close));
+                                        return false;
+
+
+                                    }
+
+                                    string nameParLev = parameterLevel.AsString();
+
+
+                                    if (parameterlElement != null && parameterLevel != null)
+                                    {
+
+                                        parameterlElement.Set(nameParLev);
+                                    }
+
+                                }
+                            }
+
+                            i++;
+                        }
+
+
+                    }
+
+                    tr.Commit();
+                }
+
+
+                progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close)); 
+
+                if (!string.IsNullOrEmpty(messageGroup))
+                {
+                    TaskDialog.Show("Missed Groups", "Missed groups:\n" + messageGroup + "\n");
+                }
+                else
+                {
+
+                    TaskDialog.Show("Result", i + " element(s) were analyzed");
+                }
+                return true;
+            }
+        }
+        #endregion
 
     }
 }

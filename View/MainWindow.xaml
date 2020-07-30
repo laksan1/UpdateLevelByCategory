@@ -14,9 +14,7 @@
              >
 
     <Grid Margin="1,0,0,4" Cursor="Hand" HorizontalAlignment="Left" Width="448">
-
         <Grid.RowDefinitions>
-
             <RowDefinition Height="353*"/>
             <RowDefinition Height="190*"/>
         </Grid.RowDefinitions>
@@ -54,6 +52,8 @@
                  Controls:TextBoxHelper.Watermark="Enter the offset"
                  TextWrapping="Wrap" Text="{Binding  OffsetNumberVM}" VerticalAlignment="Top" Width="101"/>
         <Label Content="Offset" Grid.Column="2" HorizontalAlignment="Left" Margin="19,10,-23,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="101" Height="26" KeyUp="Label_KeyUp"/>
+        <CheckBox x:Name="ADSK_Level_Checkbox" Command="{Binding CommandAdskLevel}" ToolTip="Set parameter ADSK_Этаж" IsChecked="{Binding IsCheckedAdskLevel, UpdateSourceTrigger=PropertyChanged}"  HorizontalAlignment="Left" Margin="132.4,92.6,0,0" Grid.Row="1" VerticalAlignment="Top" Height="23" Width="32" Grid.Column="1" />
+        <Label Content="Set ADSK Этаж" Grid.Column="1" HorizontalAlignment="Left" Margin="169.4,92.6,0,0" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="114"/>
     </Grid>
     <Window.Resources>
         <ResourceDictionary>

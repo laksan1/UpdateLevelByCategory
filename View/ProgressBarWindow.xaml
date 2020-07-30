@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:UpdateLevelByCategory.View"
              Title="Progress bar"
              WindowStartupLocation="CenterScreen"
+             ResizeMode="NoResize" 
              mc:Ignorable="d" Height="287.708" Width="420.617" Closed="MetroWindow_Closed">
     <Grid>
         <Label x:Name="labelNumberElement" Margin="63,69,54,158" Foreground="#FF0E85E8" FontSize="16" FontFamily="Segoe UI Black"/>

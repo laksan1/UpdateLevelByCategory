@@ -9,11 +9,8 @@ using UpdateLevelByCategory.Model;
 namespace UpdateLevelByCategory.ViewModel
 {
    public class ProgressBarViewModel
-    {
-        ProgressBarWindow ProgressBarWindow { get; set; }
+   {
         internal RevitModelClass RevitModel { get; set; }
-
-
 
         public ProgressBarViewModel (RevitModelClass _rv)
         {
@@ -21,5 +18,5 @@ namespace UpdateLevelByCategory.ViewModel
             RevitModel = _rv;
 
         }
-    }
+   }
 }
