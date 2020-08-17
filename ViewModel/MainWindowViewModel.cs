@@ -155,6 +155,7 @@ namespace UpdateLevelByCategory.ViewModel
                         {
                             RevitModel.offsetNumberR = OffsetNumberVM;
                             RevitModel.GetRadioButton(checkedCat);
+                           
                         }
 
                         else
@@ -224,8 +225,30 @@ namespace UpdateLevelByCategory.ViewModel
                 if (_command5 == null)
                     _command5 = new RelayCommand(o =>
                     {
-                        if (IsCheckedAdskLevel)
+
+                        if (RevitModel.collectionElementsId == null)
+                        {
+                            RevitModel.offsetNumberR = OffsetNumberVM;
+                            RevitModel.GetRadioButtonForLevel(checkedCat);
+
+                        }
+
+                        else
+                        {
+
+                            RevitModel.offsetNumberR = OffsetNumberVM;
+
+                            MV.Close();
                             RevitModel.SetAdskLevel(RevitModel.collectionElementsId);
+
+                          
+
+                        }
+
+
+
+
+                        // RevitModel.SetAdskLevel(RevitModel.collectionElementsId);
 
                     });
                 return _command5;

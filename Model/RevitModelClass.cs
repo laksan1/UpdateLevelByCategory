@@ -197,16 +197,18 @@ namespace UpdateLevelByCategory.Model
 
                                     Parameter parameterlElement = el.LookupParameter("ADSK_Этаж");
                                     Parameter parameterLevel = newLevel.LookupParameter("ADSK_Этаж");
-                                    if (parameterLevel == null)
-                                    {
+
+                                /*
+                                if (parameterLevel == null)
+                                {
 
                                     TaskDialog.Show("Error", $"Level - \u0022{newLevel.Name}\u0022 does not have the value \u0022ADSK_Этаж\u0022");
                                     progressBarWindow.Dispatcher.Invoke(new Action(progressBarWindow.Close));
                                     return false;
 
-                                    }
+                                }
 
-                                    string nameParLev = parameterLevel.AsString();
+                                string nameParLev = parameterLevel.AsString();
 
                                     if (string.IsNullOrEmpty(nameParLev))
                                     {
@@ -217,7 +219,7 @@ namespace UpdateLevelByCategory.Model
 
                                     }
                             
-
+                                */
                                 //Если уровни не совпали
                                 if (newLevel.Id != levelBaseElement && !ParameterElementLevel.IsReadOnly)
                                     {
@@ -267,6 +269,7 @@ namespace UpdateLevelByCategory.Model
                                     Parameter parameterlElement = elForLevel.LookupParameter("ADSK_Этаж");
                                     Parameter parameterLevel = newLevel.LookupParameter("ADSK_Этаж");
 
+                                    /*
                                     if (parameterLevel == null)
                                     {
 
@@ -277,7 +280,7 @@ namespace UpdateLevelByCategory.Model
                                     }
 
                                     string nameParLev = parameterLevel.AsString();
-
+                                    */
                                     //Если уровни не совпали
                                     if (newLevel.Id != levelBaseElement)
                                     {
@@ -347,7 +350,7 @@ namespace UpdateLevelByCategory.Model
                     FamilyInstance fIsubFamiy = elSub as FamilyInstance; //Для рекурсии
 
                     string nameSubEl = elSub.Name;
-                        Parameter _parlvl = elSub.LookupParameter("ADSK_Этаж");
+                    Parameter _parlvl = elSub.LookupParameter("ADSK_Этаж");
 
                         if (_parlvl != null)
                         {
@@ -519,6 +522,12 @@ namespace UpdateLevelByCategory.Model
         {
 
             return UpdateLevel(new FilteredElementCollector(_document).OfCategory(bt).ToList());
+        }
+
+        public bool GetRadioButtonForLevel(BuiltInCategory bt)
+        {
+
+            return SetAdskLevel(new FilteredElementCollector(_document).OfCategory(bt).ToList());
         }
 
         public static IList<Element> GetSelectedElements(UIDocument _uid)
